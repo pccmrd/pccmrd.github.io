@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KERES 9 - 2D Newtonian Space Sim</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --btn-green: #238636;
+            --btn-green-hover: #2ea043;
+            --btn-gray: #30363d;
+            --btn-gray-hover: #484f58;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 860px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Header & Badges */
+        .header {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-main);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .badges img {
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        /* Images */
+        .hero-img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .grid-2 img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 600px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 2rem; }
+        }
+
+        /* Typography & Sections */
+        h2 {
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 40px;
+            color: #ffffff;
+        }
+
+        h2::before {
+            content: '▸ ';
+            color: var(--accent);
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .quote {
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+            color: var(--text-muted);
+            font-style: italic;
+            background: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        /* Buttons */
+        .play-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff !important;
+            text-align: center;
+            border-radius: 6px;
+            text-decoration: none !important;
+            transition: background-color 0.2s;
+            min-width: 200px;
+        }
+
+        .btn-primary {
+            background-color: var(--btn-green);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--btn-green-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--btn-gray);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--btn-gray-hover);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--card-bg);
+            color: #ffffff;
+        }
+
+        /* Hashtags */
+        .hashtags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .hashtags span {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>KERES 9</h1>
+        <p class="subtitle">A 2D Newtonian space sim about flying your ship with your own two hands.</p>
+        
+        <div class="badges">
+            <img src="https://img.shields.io/badge/status-in%20development-orange?style=flat-square" alt="Status">
+            <img src="https://img.shields.io/badge/engine-one%20HTML%20file-blue?style=flat-square" alt="Engine">
+            <img src="https://img.shields.io/badge/genre-2D%20Newtonian%20space%20sim-purple?style=flat-square" alt="Genre">
+            <img src="https://img.shields.io/badge/made%20for-modern%20Android-3ddc84?style=flat-square" alt="Platform">
+        </div>
+    </div>
+
+    <!-- Replace the src with your actual screenshot names if they are different -->
+    <img src="Screenshot%20From%202026-11-17%2022-11-48.png" alt="Keres 9 Gameplay" class="hero-img">
+
+    <h2>What is this?</h2>
+    <p>Most space games ask you to click a station and wait. <strong>Kestrel 9 asks you to fly there</strong> — to bleed off your relative velocity, match the slow rotation of a docking port, and settle onto magnetic landing gear without turning your ship into confetti.</p>
+    <p>The whole game lives inside <strong>one unbroken sector of an asteroid belt</strong>, held in the gravity well of a distant moon. There are no loading screens. Station interiors, derelict hulls, and asteroid caves don't load — they simply <em>become visible</em> as you enter them, the way a roof disappears when you step into a house in a top-down RPG.</p>
+    <p>Around you, the sector keeps living: cargo spills when hulls crack, NPCs with their own goals and finances trade and fight and remember, and somewhere in a fog-filled crater there's a cave with something worth the risk.</p>
+
+    <div class="grid-2">
+        <img src="Screenshot%20From%202026-11-17%2022-12-59.png" alt="Docking and interior exploration">
+        <img src="Screenshot%20From%202026-11-17%2022-17-07.png" alt="Asteroid caves and derelicts">
+    </div>
+
+    <h2>What you actually do</h2>
+    <ul>
+        <li><strong>Fly manually.</strong> Full Newtonian physics. Every gram of thrust costs you, and stopping is harder than going.</li>
+        <li><strong>Dock like you mean it.</strong> Rotating stations, drifting wrecks, magnetic gear, gentle contact. No autopilot to hide behind.</li>
+        <li><strong>Breach what won't open.</strong> Anchor to a dead hull, cut through, and board it. Not every door has a working port.</li>
+        <li><strong>Explore seamless interiors.</strong> Station concourses, derelict corridors, and asteroid caves with their own biomes — all without a single loading screen.</li>
+        <li><strong>Scan with skill.</strong> Directional scanning isn't a button press. Point it, work it, and read what comes back.</li>
+        <li><strong>Break everything.</strong> Modular, fully destructible ships, stations, and asteroids. Guns fire from exactly where you bolted them on.</li>
+        <li><strong>Live in an economy.</strong> Real cargo in real containers. Spill it, steal it, sell it. NPCs make their own moves based on their own situation.</li>
+    </ul>
+    
+    <div class="quote">
+        Gritty, modular, hard-Sci-Fi pixel voxels. Ships are assemblies, not skins. Damage is geometry.
+    </div>
+
+    <h2>Play</h2>
+    <div class="quote" style="border-color: #d29922; background-color: rgba(210, 153, 34, 0.1);">
+        ⚠️ <strong>Versions are not iterations.</strong> Each release is a complete rehaul of the code — picking one over the other is like trying two similar games in the same genre.
+    </div>
+
+    <div class="play-buttons">
+        <a href="Qwen4Max_KERES9_v1.2.1.html" class="btn btn-primary">▶ PLAY v1.2.1</a>
+        <a href="Qwen4Max_KERES9_v1.1.html" class="btn btn-secondary">▶ PLAY v1.1</a>
+    </div>
+
+    <table>
+        <tr>
+            <th>Release</th>
+            <th>Notes</th>
+        </tr>
+        <tr>
+            <td><a href="Qwen4Max_KERES9_v1.2.1.html">v1.2.1</a></td>
+            <td>Latest build</td>
+        </tr>
+        <tr>
+            <td><a href="Qwen4Max_KERES9_v1.1.html">v1.1</a></td>
+            <td>Earlier rehaul</td>
+        </tr>
+    </table>
+    
+    <p>Runs in the browser — no install, no engine, no asset folder. Built mobile-first for a modern Android phone in landscape.</p>
+
+    <h2>Hashtags</h2>
+    <div class="hashtags">
+        <span>#Keres9</span> <span>#SpaceSim</span> <span>#SpaceGame</span> <span>#2DGame</span> 
+        <span>#NewtonianPhysics</span> <span>#ManualFlight</span> <span>#IndieGame</span> <span>#GameDev</span> 
+        <span>#HTML5Game</span> <span>#WebGame</span> <span>#JavaScript</span> <span>#SingleFileGame</span> 
+        <span>#PixelArt</span> <span>#ProceduralGeneration</span> <span>#DestructibleWorld</span> 
+        <span>#SciFi</span> <span>#HardSciFi</span> <span>#AndroidGaming</span> <span>#MobileGame</span> <span>#DockingSim</span>
+    </div>
+
+    <div class="footer">
+        Everything you see is one HTML file. 🚀
+    </div>
+</div>
+
+</body>
+</html>
